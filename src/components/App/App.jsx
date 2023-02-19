@@ -17,27 +17,19 @@ export const App = () => {
     const contacts = useSelector(state => state.contacts.contacts);
     const filter = useSelector(state => state.contacts.filter);
 
-  const normalizedFilter = filter.toLowerCase();
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizedFilter)
-  );
-
-
   return (
     <Container>
         <Toaster position="top-center" reverseOrder={false} />
         <Title>Phonebook</Title>
        <ContactForm/>
       <SubTitle>Contacts</SubTitle>
-       {filteredContacts.length > 0 || filter ? (
+       {contacts.length > 0 || filter ? (
           <Filter/>
         ) : (
           <Notification msg="No contacts added" />
-        )}
-
-        <ContactList
-          contacts={filteredContacts}
-        />
-      </Container>
+      )}
+      
+      <ContactList/>     
+     </Container>
   )
 }

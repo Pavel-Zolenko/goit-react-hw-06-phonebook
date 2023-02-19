@@ -1,11 +1,19 @@
-import { PropTypes } from 'prop-types';
-
+import { useSelector } from 'react-redux';
 import { ContactItem } from 'components/ContactItem';
 
-export const ContactList = ({ contacts}) => {
+export const ContactList = () => {
+  
+  const contacts = useSelector(state => state.contacts.contacts);
+  const filter = useSelector(state => state.contacts.filter);
+
+  const normalizedFilter = filter.toLowerCase();
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(normalizedFilter)
+  );
+
   return (
     <ul>
-      {contacts
+      {filteredContacts
         .sort((a, b) => a.name.localeCompare(b.name))
         .map(({ id, name, number }) => (
           <ContactItem
@@ -17,14 +25,4 @@ export const ContactList = ({ contacts}) => {
         ))}
     </ul>
   );
-};
-
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.exact({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
 };
